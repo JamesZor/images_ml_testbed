@@ -1,0 +1,7 @@
+data/MNIST/
+data/MNIST/*
+*.pyc
+__pycache__/
+.DS_Store
+wandb/
+*.log
