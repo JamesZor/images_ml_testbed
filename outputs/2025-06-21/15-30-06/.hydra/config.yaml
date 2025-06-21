@@ -1,0 +1,55 @@
+model:
+  _target_: src.models.cnn.SimpleCNN
+  num_classes: 10
+  input_channels: 1
+  conv_channels:
+  - 32
+  - 64
+  conv_kernel_size: 3
+  conv_padding: 1
+  pool_size: 2
+  hidden_dim: 128
+  dropout_rate: 0.5
+  learning_rate: 0.001
+  optimizer: adam
+  weight_decay: 0.0001
+data:
+  _target_: src.data.dataloader.MNISTDataModule
+  data_dir: ./data
+  batch_size: 64
+  num_workers: 4
+  pin_memory: true
+  tensor_dtype: float16
+  val_split: 0.1
+  normalize: false
+  use_augmentation: false
+  random_state: 42
+training:
+  max_epochs: 10
+  patience: 5
+  min_delta: 0.001
+  lr_scheduler: step
+  lr_step_size: 7
+  lr_gamma: 0.1
+  validation_split: 0.0
+  check_val_every_n_epoch: 1
+  log_every_n_steps: 50
+  save_top_k: 3
+  accelerator: auto
+  devices: 1
+experiment:
+  name: accuracy_half
+  tags:
+  - mnist
+  - classification
+  - images
+  - pytorch
+  - cnn
+  notes: Classification of images, default mnist
+seed: 42
+wandb:
+  project: image_class_prediction
+  entity: jameszoryk-me
+  mode: online
+output_dir: ./experiments/${now:%Y-%m-%d_%H-%M}
+model_dir: ./models

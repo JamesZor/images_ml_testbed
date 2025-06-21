@@ -1,0 +1,111 @@
+[2025-06-21 15:19:28,858][__main__][INFO] - Starting MNIST training...
+[2025-06-21 15:19:28,859][__main__][INFO] - Configuration:
+model:
+  _target_: src.models.cnn.SimpleCNN
+  num_classes: 10
+  input_channels: 1
+  conv_channels:
+  - 32
+  - 64
+  conv_kernel_size: 3
+  conv_padding: 1
+  pool_size: 2
+  hidden_dim: 128
+  dropout_rate: 0.5
+  learning_rate: 0.001
+  optimizer: adam
+  weight_decay: 0.0001
+data:
+  _target_: src.data.dataloader.MNISTDataModule
+  data_dir: ./data
+  batch_size: 64
+  num_workers: 4
+  pin_memory: true
+  tensor_dtype: float32
+  val_split: 0.1
+  normalize: false
+  use_augmentation: false
+  random_state: 42
+training:
+  max_epochs: 20
+  patience: 5
+  min_delta: 0.001
+  lr_scheduler: step
+  lr_step_size: 7
+  lr_gamma: 0.1
+  validation_split: 0.0
+  check_val_every_n_epoch: 1
+  log_every_n_steps: 50
+  save_top_k: 3
+  accelerator: auto
+  devices: 1
+experiment:
+  name: image_class_prediction
+  tags:
+  - mnist
+  - classification
+  - images
+  - pytorch
+  - cnn
+  notes: Classification of images, default mnist
+seed: 42
+wandb:
+  project: image_class_prediction
+  entity: jameszoryk-me
+  mode: online
+output_dir: ./experiments/${now:%Y-%m-%d_%H-%M}
+model_dir: ./models
+
+[2025-06-21 15:19:28,862][__main__][INFO] - Seed set to 42
+[2025-06-21 15:19:28,863][__main__][INFO] - Initializing data module...
+[2025-06-21 15:19:28,865][src.data.dataloader][INFO] - Initialized MNISTDataModule with dtype=torch.float32, batch_size=64, normalize=False
+[2025-06-21 15:19:28,865][src.data.dataloader][INFO] - Using float32: Standard precision for training.
+[2025-06-21 15:19:28,865][src.data.dataloader][INFO] - Downloading MNIST dataset...
+[2025-06-21 15:20:03,362][src.data.dataloader][INFO] - MNIST dataset downloaded to ./data
+[2025-06-21 15:20:04,923][src.data.dataloader][INFO] - Train dataset: 54000 samples, dtype=torch.float32
+[2025-06-21 15:20:04,923][src.data.dataloader][INFO] - Val dataset: 6000 samples, dtype=torch.float32
+[2025-06-21 15:20:04,925][src.data.dataloader][INFO] - Test dataset: 10000 samples, dtype=torch.float32
+[2025-06-21 15:20:04,926][__main__][INFO] - Data statistics: {'num_classes': 10, 'input_shape': (1, 28, 28), 'tensor_dtype': 'torch.float32', 'train_size': 54000, 'val_size': 6000, 'test_size': 10000, 'batch_size': 64, 'normalize': False, 'augmentation': False}
+[2025-06-21 15:20:04,926][__main__][INFO] - Initializing model...
+[2025-06-21 15:20:05,635][src.models.cnn][INFO] - Created SimpleCNN with 421,642 parameters
+[2025-06-21 15:20:05,635][src.models.cnn][INFO] - Model dtype: torch.float32
+[2025-06-21 15:20:05,635][__main__][INFO] - Model: SimpleCNN(
+  (conv_layers): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (3): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): ReLU()
+    (5): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (classifier): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=3136, out_features=128, bias=True)
+    (2): ReLU()
+    (3): Dropout(p=0.5, inplace=False)
+    (4): Linear(in_features=128, out_features=10, bias=True)
+  )
+  (train_acc): MulticlassAccuracy()
+  (val_acc): MulticlassAccuracy()
+  (test_acc): MulticlassAccuracy()
+  (train_f1): MulticlassF1Score()
+  (val_f1): MulticlassF1Score()
+  (test_f1): MulticlassF1Score()
+)
+[2025-06-21 15:20:05,635][__main__][INFO] - Model info: {'num_classes': 10, 'total_parameters': 421642, 'model_dtype': 'torch.float32', 'learning_rate': 0.001, 'optimizer': 'adam', 'weight_decay': 0.0001}
+[2025-06-21 15:20:39,161][__main__][INFO] - Initializing trainer...
+[2025-06-21 15:20:39,186][__main__][INFO] - Starting training...
+[2025-06-21 15:20:39,824][src.data.dataloader][INFO] - Downloading MNIST dataset...
+[2025-06-21 15:20:39,842][src.data.dataloader][INFO] - MNIST dataset downloaded to ./data
+[2025-06-21 15:20:39,886][src.data.dataloader][INFO] - Train dataset: 54000 samples, dtype=torch.float32
+[2025-06-21 15:20:39,887][src.data.dataloader][INFO] - Val dataset: 6000 samples, dtype=torch.float32
+[2025-06-21 15:22:38,680][__main__][INFO] - Testing model...
+[2025-06-21 15:22:38,680][src.data.dataloader][INFO] - Downloading MNIST dataset...
+[2025-06-21 15:22:38,698][src.data.dataloader][INFO] - MNIST dataset downloaded to ./data
+[2025-06-21 15:22:38,701][src.data.dataloader][INFO] - Test dataset: 10000 samples, dtype=torch.float32
+[2025-06-21 15:22:39,423][__main__][INFO] - Training completed!
+[2025-06-21 15:22:39,424][__main__][INFO] - Best validation loss: 0.0372
+[2025-06-21 15:22:39,424][__main__][INFO] - Test loss: 0.0213
+[2025-06-21 15:22:39,424][__main__][INFO] - Test accuracy: 0.9936
+[2025-06-21 15:22:39,424][__main__][INFO] - Test F1-score: 0.9929
+[2025-06-21 15:22:39,427][__main__][INFO] - Model saved to experiments/2025-06-21_15-19/final_model.pt

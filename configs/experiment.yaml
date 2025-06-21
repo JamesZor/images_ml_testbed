@@ -1,8 +1,8 @@
 # configs/experiment.yaml -- main experiment configuration
 defaults: 
-  - model: mnist_mlr
-  - data: mnist 
-  - training: default 
+  - model: cnn_simple
+  - data: mnist_float32
+  - training: mnist_basic
   - _self_
 
 

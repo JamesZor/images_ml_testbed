@@ -1,0 +1,271 @@
+_wandb:
+    value:
+        cli_version: 0.20.1
+        m:
+            - "1": train_loss_step
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": trainer/global_step
+              "6":
+                - 3
+              "7": []
+            - "1": val_loss
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": test_f1
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": train_acc_step
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": epoch
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": train_acc_epoch
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": test_acc
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": test_loss
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": final/test_f1
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": val_acc
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": val_f1
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": final/best_val_loss
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": final/test_loss
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": train_loss_epoch
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": train_f1
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "1": final/test_acc
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7": []
+        python_version: 3.11.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 9
+                - 11
+                - 41
+                - 49
+                - 50
+                - 53
+                - 71
+                - 103
+            "2":
+                - 1
+                - 5
+                - 9
+                - 11
+                - 41
+                - 49
+                - 50
+                - 53
+                - 71
+                - 103
+            "3":
+                - 2
+                - 7
+                - 13
+                - 15
+                - 55
+                - 66
+            "4": 3.11.13
+            "5": 0.20.1
+            "6": 4.52.4
+            "12": 0.20.1
+            "13": linux-x86_64
+batch_size:
+    value: 64
+conv_channels:
+    value: '[32, 64]'
+conv_kernel_size:
+    value: 3
+conv_padding:
+    value: 1
+data:
+    value:
+        _target_: src.data.dataloader.MNISTDataModule
+        batch_size: 64
+        data_dir: ./data
+        normalize: false
+        num_workers: 4
+        pin_memory: true
+        random_state: 42
+        tensor_dtype: int8
+        use_augmentation: false
+        val_split: 0.1
+data_dir:
+    value: ./data
+data_info:
+    value:
+        augmentation: false
+        batch_size: 64
+        input_shape:
+            - 1
+            - 28
+            - 28
+        normalize: false
+        num_classes: 10
+        tensor_dtype: torch.int8
+        test_size: 10000
+        train_size: 54000
+        val_size: 6000
+dropout_rate:
+    value: 0.5
+experiment:
+    value:
+        name: accuracy_quantized
+        notes: Classification of images, default mnist
+        tags:
+            - mnist
+            - classification
+            - images
+            - pytorch
+            - cnn
+hidden_dim:
+    value: 128
+input_channels:
+    value: 1
+learning_rate:
+    value: 0.001
+model:
+    value:
+        _target_: src.models.cnn.SimpleCNN
+        conv_channels:
+            - 32
+            - 64
+        conv_kernel_size: 3
+        conv_padding: 1
+        dropout_rate: 0.5
+        hidden_dim: 128
+        input_channels: 1
+        learning_rate: 0.001
+        num_classes: 10
+        optimizer: adam
+        pool_size: 2
+        weight_decay: 0.0001
+model_dir:
+    value: ./models
+model_dtype:
+    value: float32
+model_info:
+    value:
+        learning_rate: 0.001
+        model_dtype: torch.float32
+        num_classes: 10
+        optimizer: adam
+        total_parameters: 421642
+        weight_decay: 0.0001
+normalize:
+    value: false
+num_classes:
+    value: 10
+num_workers:
+    value: 4
+optimizer:
+    value: adam
+output_dir:
+    value: ./experiments/2025-06-21_15-32
+persistent_workers:
+    value: true
+pin_memory:
+    value: true
+pool_size:
+    value: 2
+random_state:
+    value: 42
+rotation_degrees:
+    value: 10
+seed:
+    value: 42
+tensor_dtype:
+    value: int8
+training:
+    value:
+        accelerator: auto
+        check_val_every_n_epoch: 1
+        devices: 1
+        log_every_n_steps: 50
+        lr_gamma: 0.1
+        lr_scheduler: step
+        lr_step_size: 7
+        max_epochs: 10
+        min_delta: 0.001
+        patience: 5
+        save_top_k: 3
+        validation_split: 0
+use_augmentation:
+    value: false
+val_split:
+    value: 0.1
+wandb:
+    value:
+        entity: jameszoryk-me
+        mode: online
+        project: image_class_prediction
+weight_decay:
+    value: 0.0001

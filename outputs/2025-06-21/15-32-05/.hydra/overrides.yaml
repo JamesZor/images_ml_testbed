@@ -1,0 +1,2 @@
+- data.tensor_dtype=int8
+- experiment.name=accuracy_quantized

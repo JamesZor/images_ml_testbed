@@ -1,0 +1,32 @@
+2025-06-21 15:20:06,178 INFO    MainThread:1266 [wandb_setup.py:_flush():81] Current SDK version is 0.20.1
+2025-06-21 15:20:06,178 INFO    MainThread:1266 [wandb_setup.py:_flush():81] Configure stats pid to 1266
+2025-06-21 15:20:06,178 INFO    MainThread:1266 [wandb_setup.py:_flush():81] Loading settings from /home/james/.config/wandb/settings
+2025-06-21 15:20:06,178 INFO    MainThread:1266 [wandb_setup.py:_flush():81] Loading settings from /home/james/ml_projects/images_ml_testbed/wandb/settings
+2025-06-21 15:20:06,178 INFO    MainThread:1266 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2025-06-21 15:20:06,178 INFO    MainThread:1266 [wandb_init.py:setup_run_log_directory():703] Logging user logs to experiments/2025-06-21_15-19/wandb/run-20250621_152006-kku8qjkb/logs/debug.log
+2025-06-21 15:20:06,178 INFO    MainThread:1266 [wandb_init.py:setup_run_log_directory():704] Logging internal logs to experiments/2025-06-21_15-19/wandb/run-20250621_152006-kku8qjkb/logs/debug-internal.log
+2025-06-21 15:20:06,178 INFO    MainThread:1266 [wandb_init.py:init():831] calling init triggers
+2025-06-21 15:20:06,179 INFO    MainThread:1266 [wandb_init.py:init():836] wandb.init called with sweep_config: {}
+config: {'_wandb': {}}
+2025-06-21 15:20:06,179 INFO    MainThread:1266 [wandb_init.py:init():872] starting backend
+2025-06-21 15:20:28,831 INFO    MainThread:1266 [wandb_init.py:init():875] sending inform_init request
+2025-06-21 15:20:28,834 INFO    MainThread:1266 [wandb_init.py:init():883] backend started and connected
+2025-06-21 15:20:28,835 INFO    MainThread:1266 [wandb_init.py:init():956] updated telemetry
+2025-06-21 15:20:28,838 INFO    MainThread:1266 [wandb_init.py:init():980] communicating run to backend with 90.0 second timeout
+2025-06-21 15:20:34,696 INFO    MainThread:1266 [wandb_init.py:init():1032] starting run threads in backend
+2025-06-21 15:20:38,459 INFO    MainThread:1266 [wandb_run.py:_console_start():2453] atexit reg
+2025-06-21 15:20:38,459 INFO    MainThread:1266 [wandb_run.py:_redirect():2301] redirect: wrap_raw
+2025-06-21 15:20:38,459 INFO    MainThread:1266 [wandb_run.py:_redirect():2370] Wrapping output streams.
+2025-06-21 15:20:38,460 INFO    MainThread:1266 [wandb_run.py:_redirect():2393] Redirects installed.
+2025-06-21 15:20:38,461 INFO    MainThread:1266 [wandb_init.py:init():1078] run started, returning control to user process
+2025-06-21 15:20:38,462 INFO    MainThread:1266 [wandb_run.py:_config_callback():1358] config_cb None None {'model': {'_target_': 'src.models.cnn.SimpleCNN', 'num_classes': 10, 'input_channels': 1, 'conv_channels': [32, 64], 'conv_kernel_size': 3, 'conv_padding': 1, 'pool_size': 2, 'hidden_dim': 128, 'dropout_rate': 0.5, 'learning_rate': 0.001, 'optimizer': 'adam', 'weight_decay': 0.0001}, 'data': {'_target_': 'src.data.dataloader.MNISTDataModule', 'data_dir': './data', 'batch_size': 64, 'num_workers': 4, 'pin_memory': True, 'tensor_dtype': 'float32', 'val_split': 0.1, 'normalize': False, 'use_augmentation': False, 'random_state': 42}, 'training': {'max_epochs': 20, 'patience': 5, 'min_delta': 0.001, 'lr_scheduler': 'step', 'lr_step_size': 7, 'lr_gamma': 0.1, 'validation_split': 0.0, 'check_val_every_n_epoch': 1, 'log_every_n_steps': 50, 'save_top_k': 3, 'accelerator': 'auto', 'devices': 1}, 'experiment': {'name': 'image_class_prediction', 'tags': ['mnist', 'classification', 'images', 'pytorch', 'cnn'], 'notes': 'Classification of images, default mnist'}, 'seed': 42, 'wandb': {'project': 'image_class_prediction', 'entity': 'jameszoryk-me', 'mode': 'online'}, 'output_dir': './experiments/2025-06-21_15-19', 'model_dir': './models'}
+2025-06-21 15:20:38,462 INFO    MainThread:1266 [wandb_run.py:_config_callback():1358] config_cb None None {'data_info': {'num_classes': 10, 'input_shape': [1, 28, 28], 'tensor_dtype': 'torch.float32', 'train_size': 54000, 'val_size': 6000, 'test_size': 10000, 'batch_size': 64, 'normalize': False, 'augmentation': False}, 'model_info': {'num_classes': 10, 'total_parameters': 421642, 'model_dtype': 'torch.float32', 'learning_rate': 0.001, 'optimizer': 'adam', 'weight_decay': 0.0001}}
+2025-06-21 15:20:44,249 INFO    MainThread:1266 [wandb_run.py:_config_callback():1358] config_cb None None {'num_classes': 10, 'input_channels': 1, 'conv_channels': '[32, 64]', 'conv_kernel_size': 3, 'conv_padding': 1, 'pool_size': 2, 'hidden_dim': 128, 'dropout_rate': 0.5, 'learning_rate': 0.001, 'optimizer': 'adam', 'weight_decay': 0.0001, 'model_dtype': 'float32', 'data_dir': './data', 'batch_size': 64, 'num_workers': 4, 'pin_memory': True, 'persistent_workers': True, 'val_split': 0.1, 'normalize': False, 'tensor_dtype': 'float32', 'use_augmentation': False, 'rotation_degrees': 10.0, 'random_state': 42}
+2025-06-21 15:22:38,707 INFO    MainThread:1266 [wandb_run.py:_config_callback():1358] config_cb None None {'num_classes': 10, 'input_channels': 1, 'conv_channels': '[32, 64]', 'conv_kernel_size': 3, 'conv_padding': 1, 'pool_size': 2, 'hidden_dim': 128, 'dropout_rate': 0.5, 'learning_rate': 0.001, 'optimizer': 'adam', 'weight_decay': 0.0001, 'model_dtype': 'float32', 'data_dir': './data', 'batch_size': 64, 'num_workers': 4, 'pin_memory': True, 'persistent_workers': True, 'val_split': 0.1, 'normalize': False, 'tensor_dtype': 'float32', 'use_augmentation': False, 'rotation_degrees': 10.0, 'random_state': 42}
+2025-06-21 15:22:39,427 INFO    MainThread:1266 [wandb_run.py:_finish():2219] finishing run jameszoryk-me/image_class_prediction/kku8qjkb
+2025-06-21 15:22:39,427 INFO    MainThread:1266 [wandb_run.py:_atexit_cleanup():2418] got exitcode: 0
+2025-06-21 15:22:39,427 INFO    MainThread:1266 [wandb_run.py:_restore():2400] restore
+2025-06-21 15:22:39,427 INFO    MainThread:1266 [wandb_run.py:_restore():2406] restore done
+2025-06-21 15:22:40,904 INFO    MainThread:1266 [wandb_run.py:_footer_history_summary_info():4000] rendering history
+2025-06-21 15:22:40,904 INFO    MainThread:1266 [wandb_run.py:_footer_history_summary_info():4032] rendering summary
+2025-06-21 15:22:40,904 INFO    MainThread:1266 [wandb_run.py:_footer_sync_info():3961] logging synced files

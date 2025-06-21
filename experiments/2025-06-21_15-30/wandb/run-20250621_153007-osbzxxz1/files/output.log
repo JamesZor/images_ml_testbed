@@ -1,0 +1,68 @@
+[2025-06-21 15:30:08,745][__main__][INFO] - Initializing trainer...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+[2025-06-21 15:30:08,770][__main__][INFO] - Starting training...
+[2025-06-21 15:30:08,890][src.data.dataloader][INFO] - Downloading MNIST dataset...
+[2025-06-21 15:30:08,908][src.data.dataloader][INFO] - MNIST dataset downloaded to ./data
+[2025-06-21 15:30:08,953][src.data.dataloader][INFO] - Train dataset: 54000 samples, dtype=torch.float16
+[2025-06-21 15:30:08,953][src.data.dataloader][INFO] - Val dataset: 6000 samples, dtype=torch.float16
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name        | Type               | Params | Mode
+-----------------------------------------------------------
+0 | conv_layers | Sequential         | 18.8 K | train
+1 | classifier  | Sequential         | 402 K  | train
+2 | train_acc   | MulticlassAccuracy | 0      | train
+3 | val_acc     | MulticlassAccuracy | 0      | train
+4 | test_acc    | MulticlassAccuracy | 0      | train
+5 | train_f1    | MulticlassF1Score  | 0      | train
+6 | val_f1      | MulticlassF1Score  | 0      | train
+7 | test_f1     | MulticlassF1Score  | 0      | train
+-----------------------------------------------------------
+421 K     Trainable params
+0         Non-trainable params
+421 K     Total params
+1.687     Total estimated model params size (MB)
+19        Modules in train mode
+0         Modules in eval mode
+Epoch 9: 100%|██████████████████████| 843/843 [00:05<00:00, 154.34it/s, v_num=xxz1, train_loss_step=0.00215, train_acc_step=1.000, val_loss=0.0359, val_acc=0.991, train_loss_epoch=0.0224, train_acc_epoch=0.993]
+[2025-06-21 15:31:03,763][__main__][INFO] - Testing model...                                                                                                                                                      
+Metric val_loss improved. New best score: 0.076
+Epoch 0, global step 843: 'val_loss' reached 0.07619 (best 0.07619), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=00-val_loss=0.08.ckpt' as top 3
+Metric val_loss improved by 0.017 >= min_delta = 0.001. New best score: 0.059
+Epoch 1, global step 1686: 'val_loss' reached 0.05889 (best 0.05889), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=01-val_loss=0.06.ckpt' as top 3
+Metric val_loss improved by 0.008 >= min_delta = 0.001. New best score: 0.051
+Epoch 2, global step 2529: 'val_loss' reached 0.05109 (best 0.05109), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=02-val_loss=0.05.ckpt' as top 3
+Metric val_loss improved by 0.004 >= min_delta = 0.001. New best score: 0.047
+Epoch 3, global step 3372: 'val_loss' reached 0.04667 (best 0.04667), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=03-val_loss=0.05.ckpt' as top 3
+Metric val_loss improved by 0.001 >= min_delta = 0.001. New best score: 0.045
+Epoch 4, global step 4215: 'val_loss' reached 0.04535 (best 0.04535), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=04-val_loss=0.05.ckpt' as top 3
+Epoch 5, global step 5058: 'val_loss' reached 0.04685 (best 0.04535), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=05-val_loss=0.05.ckpt' as top 3
+Metric val_loss improved by 0.004 >= min_delta = 0.001. New best score: 0.041
+Epoch 6, global step 5901: 'val_loss' reached 0.04100 (best 0.04100), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=06-val_loss=0.04.ckpt' as top 3
+Metric val_loss improved by 0.006 >= min_delta = 0.001. New best score: 0.035
+Epoch 7, global step 6744: 'val_loss' reached 0.03481 (best 0.03481), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=07-val_loss=0.03.ckpt' as top 3
+Epoch 8, global step 7587: 'val_loss' reached 0.03431 (best 0.03431), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=08-val_loss=0.03.ckpt' as top 3
+Epoch 9, global step 8430: 'val_loss' reached 0.03586 (best 0.03431), saving model to '/home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=09-val_loss=0.04.ckpt' as top 3
+`Trainer.fit` stopped: `max_epochs=10` reached.
+[2025-06-21 15:31:03,764][src.data.dataloader][INFO] - Downloading MNIST dataset...
+[2025-06-21 15:31:03,784][src.data.dataloader][INFO] - MNIST dataset downloaded to ./data
+[2025-06-21 15:31:03,787][src.data.dataloader][INFO] - Test dataset: 10000 samples, dtype=torch.float16
+Restoring states from the checkpoint path at /home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=08-val_loss=0.03.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loaded model weights from the checkpoint at /home/james/ml_projects/images_ml_testbed/experiments/2025-06-21_15-30/checkpoints/best-epoch=08-val_loss=0.03.ckpt
+Testing DataLoader 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 157/157 [00:00<00:00, 291.13it/s]
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.9929999709129333
+         test_f1            0.9924331307411194
+        test_loss          0.021526850759983063
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+[2025-06-21 15:31:04,417][__main__][INFO] - Training completed!
+[2025-06-21 15:31:04,418][__main__][INFO] - Best validation loss: 0.0343
+[2025-06-21 15:31:04,418][__main__][INFO] - Test loss: 0.0215
+[2025-06-21 15:31:04,418][__main__][INFO] - Test accuracy: 0.9930
+[2025-06-21 15:31:04,418][__main__][INFO] - Test F1-score: 0.9924
+[2025-06-21 15:31:04,421][__main__][INFO] - Model saved to experiments/2025-06-21_15-30/final_model.pt

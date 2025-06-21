@@ -1,0 +1,16 @@
+{"time":"2025-06-21T15:32:06.327191122Z","level":"INFO","msg":"stream: starting","core version":"0.20.1","symlink path":"experiments/2025-06-21_15-32/wandb/run-20250621_153206-sxotv4ck/logs/debug-core.log"}
+{"time":"2025-06-21T15:32:06.63275537Z","level":"INFO","msg":"stream: created new stream","id":"sxotv4ck"}
+{"time":"2025-06-21T15:32:06.632780116Z","level":"INFO","msg":"stream: started","id":"sxotv4ck"}
+{"time":"2025-06-21T15:32:06.632789253Z","level":"INFO","msg":"sender: started","stream_id":"sxotv4ck"}
+{"time":"2025-06-21T15:32:06.632789554Z","level":"INFO","msg":"writer: Do: started","stream_id":"sxotv4ck"}
+{"time":"2025-06-21T15:32:06.632821754Z","level":"INFO","msg":"handler: started","stream_id":"sxotv4ck"}
+{"time":"2025-06-21T15:32:07.054335163Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-06-21T15:33:04.430189638Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-06-21T15:33:04.430239261Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-06-21T15:33:05.403184716Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-06-21T15:33:05.426133271Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 148-189, summary, console lines 28-29","runtime_seconds":0.022813272}],"total_operations":1}}
+{"time":"2025-06-21T15:33:06.203138467Z","level":"INFO","msg":"stream: closing","id":"sxotv4ck"}
+{"time":"2025-06-21T15:33:06.203154167Z","level":"INFO","msg":"handler: closed","stream_id":"sxotv4ck"}
+{"time":"2025-06-21T15:33:06.203162472Z","level":"INFO","msg":"writer: Close: closed","stream_id":"sxotv4ck"}
+{"time":"2025-06-21T15:33:06.203179114Z","level":"INFO","msg":"sender: closed","stream_id":"sxotv4ck"}
+{"time":"2025-06-21T15:33:06.203202818Z","level":"INFO","msg":"stream: closed","id":"sxotv4ck"}
