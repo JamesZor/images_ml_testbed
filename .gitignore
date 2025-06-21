@@ -1,7 +1,42 @@
-data/MNIST/
-data/MNIST/*
-*.pyc
-__pycache__/
-.DS_Store
+# Data directories
+data/
+datasets/
+*.csv
+*.parquet
+
+# Model files
+*.pkl
+*.joblib
+*.h5
+*.pth
+*.onnx
+
+# Logs and outputs
+logs/
+outputs/
 wandb/
+mlruns/
 *.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
