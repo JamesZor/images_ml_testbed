@@ -1,0 +1,16 @@
+# configs/data/mnist_float32.yaml (Default - Standard Training)
+_target_: src.data.dataloader.MNISTDataModule
+data_dir: "./data"
+batch_size: 64
+num_workers: 4
+pin_memory: true
+
+# Tensor configuration
+tensor_dtype: "float32"  # Standard precision
+
+# Other settings
+val_split: 0.1
+normalize: false
+use_augmentation: false
+random_state: 42
+
