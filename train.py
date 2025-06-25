@@ -10,6 +10,7 @@ import wandb
 from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
+from torchinfo import summary
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -51,6 +52,8 @@ def main(cfg: DictConfig) -> None:
 
     logger.info(f"Model: {model}")
     logger.info(f"Model info: {model.get_model_info()}")
+    model_summary = summary(model, input_size=tuple(cfg.data.input_size), col_names=['input_size', 'output_size', 'num_params'], verbose=0)
+    logger.info(f"Model summary:\n{model_summary}")
 
     # Initialize W&B logger
     wandb_logger = None

@@ -5,6 +5,8 @@ batch_size: 256
 num_workers: 4
 pin_memory: true
 
+input_size: [1,28,28]
+
 # Tensor configuration
 tensor_dtype: "float32"  # Standard precision
 
