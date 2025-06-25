@@ -6,6 +6,7 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.types import Tensor
 from torchmetrics import Accuracy, F1Score
 
 logger = logging.getLogger(__name__)
@@ -243,3 +244,81 @@ class SimpleCNN(pl.LightningModule):
             "optimizer": self.optimizer,
             "weight_decay": self.weight_decay,
         }
+
+
+class MNIST_MLR(pl.LightningModule):
+    """
+    Model for simple logistic Regression.
+    """
+
+    def __init__(self,
+                 # training parameters
+                 learning_rate: float = 0.001,
+                 optimizer: str = "adam",
+                 weight_decay: float = 1e-4
+                 ):
+
+        super(MNIST_MLR, self).__init__()
+        self.save_hyperparameters()
+
+        # store parameters
+        self.learning_rate: float = learning_rate
+        self.optimizer: str = optimizer
+        self.weight_decay: float = weight_decay
+
+        # metrics
+        self.acc = Accuracy(task="multiclass", num_classes=10)
+        self.f1 = F1Score(task="multiclass", num_classes=10, average="macro")
+
+        self.linear = nn.Sequential(
+                nn.Flatten(),
+                nn.Linear(784, 10)
+                )
+
+    def forward(self, x):
+        return self.linear(x)
+
+    def _compute_loss_and_metrics(self, batch: Tuple[Tensor, Tensor]) -> Tuple[Tensor, Tensor, Tensor]:
+        x, y = batch
+        logits = self(x)
+        loss: Tensor = F.cross_entropy(logits, y)
+        acc: Tensor = self.acc(logits, y)
+        f1: Tensor = self.f1(logits, y)
+
+        return loss, acc, f1
+
+    def _log_metircs(self, stage: str, loss: Tensor, acc: Tensor, f1: Tensor) -> None: 
+        self.log(f"{stage}_loss", loss, prog_bar=True)
+        self.log(f"{stage}_acc", acc, prog_bar=True)
+        self.log(f"{stage}_f1", f1, prog_bar=True)
+
+
+    def training_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("train", loss, acc, f1)
+        return loss
+
+    def validation_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("val", loss, acc, f1)
+        return loss
+
+    def test_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("test", loss, acc, f1)
+        return loss
+
+    def configure_optimizers(self) -> torch.optim.Optimizer:
+        optimizer = torch.optim.Adam(
+                self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay
+                )
+        return optimizer
+
+    def get_model_info(self) -> Dict[str, Any]:
+        """ Return model information."""
+        return {
+                "model": "MLR",
+                "learning_rate": self.learning_rate,
+                "optimizer": self.optimizer,
+                "weight_decay": self.weight_decay
+                }

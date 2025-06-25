@@ -1,0 +1,8 @@
+# configs/model/mnist_mlr.yaml 
+_target_: src.models.cnn.MNIST_MLR 
+
+
+# Training 
+learning_rate: 0.001
+optimizer: adam
+weight_decay: 1e-4

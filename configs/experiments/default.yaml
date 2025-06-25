@@ -1,0 +1,18 @@
+# experiment metadata 
+experiment:
+  name: "image_class_prediction"
+  tags: ['mnist', 'classification', 'images', 'pytorch', 'cnn'] 
+  notes: "Classification of images, default mnist"
+
+# For repeat results, seed 
+seed: 42
+
+# Weights and Biases configurations 
+wandb: 
+  project: "image_class_prediction"
+  entity: "jameszoryk-me"
+  mode: "online"
+
+# output directories
+output_dir: "./experiments/${now:%Y-%m-%d_%H-%M}"
+model_dir: "./models"

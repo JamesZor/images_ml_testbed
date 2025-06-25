@@ -1,0 +1,22 @@
+# @package _global_
+# configs/experiment/mlr.yaml -- MLR experiment configuration
+defaults:
+  - override /model: mnist_mlr  # Override the model to use your MLR
+
+# Override experiment metadata
+experiment:
+  name: "MLR_MNIST_Classification"
+  tags: ['mnist', 'classification', 'logistic_regression', 'pytorch', 'mlr']
+  notes: "MNIST classification using Multinomial Logistic Regression"
+
+# Override wandb project name if desired
+wandb:
+  project: "mnist_mlr_experiments"
+  entity: "jameszoryk-me"
+  mode: "online"
+
+# output directories
+output_dir: "./experiments_mlr/${now:%Y-%m-%d_%H-%M}"
+model_dir: "./models_mlr"
+# You can also override other settings like:
+# seed: 123  # Different seed if you want

@@ -1,7 +1,7 @@
 # configs/data/mnist_float32.yaml (Default - Standard Training)
 _target_: src.data.dataloader.MNISTDataModule
 data_dir: "./data"
-batch_size: 64
+batch_size: 256
 num_workers: 4
 pin_memory: true
 
