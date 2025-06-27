@@ -94,7 +94,7 @@ def create_prediction_plot(
 ):
     """Create and save a 3x3 plot showing images with predictions."""
 
-    fig, axes = plt.subplots(3, 10, figsize=(12, 12))
+    fig, axes = plt.subplots(5, 10, figsize=(12, 12))
     fig.suptitle("Model Predictions on Test Data", fontsize=16, fontweight="bold")
 
     for i, ax in enumerate(axes.flat):
