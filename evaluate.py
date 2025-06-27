@@ -44,7 +44,7 @@ def load_model_from_checkpoint(checkpoint_path: str, model_type: str):
 
 
 def get_random_test_samples(
-    data_module: MNISTDataModule, num_samples: int = 9, seed: int = 42
+    data_module: MNISTDataModule, num_samples: int = 30, seed: int = 42
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     """Get random samples from test dataset."""
     # Set seed for reproducibility
