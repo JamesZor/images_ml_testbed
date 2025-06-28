@@ -96,7 +96,7 @@ def create_prediction_plot(
 ):
     """Create and save a 3x3 plot showing images with predictions."""
 
-    fig, axes = plt.subplots(3, 10, figsize=(12, 12))
+    fig, axes = plt.subplots(5, 10, figsize=(12, 12))
     fig.suptitle("Model Predictions on Test Data", fontsize=14, fontweight="bold")
     print(f"axes size:{len(axes.flatten())}")
     print(f"img size:{len(images)}")
@@ -179,7 +179,7 @@ def main():
     parser.add_argument(
         "--num_samples",
         type=int,
-        default=30,
+        default=50,
         help="Number of samples to visualize (default: 9)",
     )
     parser.add_argument(
