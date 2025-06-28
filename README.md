@@ -136,7 +136,28 @@ python train.py experiments=mnist_simple_models model=cnn_simple experiment.name
 | test_f1 | 0.9913 |
 | test_loss | 0.0245 |
 
+![MLR Prediction Visualization](https://github.com/JamesZor/images_ml_testbed/blob/main/results/simple_cnn/2025-06-28_13-04/prediction_visualization.png)
 
+### Combined Model Architecture Summary
+
+| Metric | SimpleCNN | CNN (FC Network) | MLR |
+|--------|-----------|------------------|-----|
+| Total params | 421,642 | 235,146 | 7,850 |
+| Trainable params | 421,642 | 235,146 | 7,850 |
+| Non-trainable params | 0 | 0 | 0 |
+| Total mult-adds (MB) | 4.28 | 0.24 | 0.01 |
+| Input size (MB) | 0.00 | 0.00 | 0.00 |
+| Forward/backward pass size (MB) | 0.30 | 0.00 | 0.00 |
+| Params size (MB) | 1.69 | 0.94 | 0.03 |
+| Estimated Total Size (MB) | 1.99 | 0.95 | 0.03 |
+
+### Combined Test Results
+
+| Test Metric | SimpleCNN | CNN (FC Network) | MLR |
+|-------------|-----------|------------------|-----|
+| test_acc | 0.9915 | 0.9721 | 0.9207 |
+| test_f1 | 0.9913 | 0.9713 | 0.9179 |
+| test_loss | 0.0245 | 0.0949 | 0.2789 |
 
 
 ## Running MNIST Evaluation 
