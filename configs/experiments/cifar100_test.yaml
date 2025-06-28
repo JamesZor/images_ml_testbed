@@ -1,0 +1,25 @@
+# @package _global_ 
+# configs/experiments/cifar100_test.yaml 
+
+defaults:
+  - override /model: cnn_simple_cifar100
+  - override /data: cifar100 
+  - override /training: cifar100_basic 
+
+
+experiment:
+  name: "cifar100_Classification models"
+  tags: ['cifar100', 'classification', 'simple models', 'pytorch']
+  notes: "cifar100 classification using a simple CNN and MLR."
+
+# Override wandb project name if desired
+wandb:
+  project: "cifar100_test"
+  entity: "jameszoryk-me"
+  mode: "online"
+
+# output directories
+output_dir: "./experiments_cifar100_test/${now:%Y-%m-%d_%H-%M}"
+model_dir: "./models_cifar100_test"
+
+

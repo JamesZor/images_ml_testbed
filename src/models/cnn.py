@@ -6,7 +6,6 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from numpy import average
 from torch.types import Tensor
 from torchmetrics import Accuracy, F1Score
 
@@ -93,7 +92,8 @@ class SimpleCNN(pl.LightningModule):
     def _get_conv_output_size(self, input_channels: int) -> int:
         """Dynamically calculate the flattened conv output size"""
         # Create a dummy input tensor matching MNIST dimensions
-        dummy_input = torch.zeros(1, input_channels, 28, 28)
+        # dummy_input = torch.zeros(1, input_channels, 28, 28)
+        dummy_input = torch.zeros(1, input_channels, 32, 32)
 
         # Pass through conv layers to get actual output shape
         with torch.no_grad():
@@ -434,3 +434,6 @@ class MNIST_CNN(pl.LightningModule):
             "optimizer": self.optimizer,
             "weight_decay": self.weight_decay,
         }
+
+
+# helper class

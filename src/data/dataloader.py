@@ -1,13 +1,12 @@
 # src/data/dataloader.py (Enhanced with configurable dtypes)
 import logging
-import os
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, Optional, Tuple
 
 import pytorch_lightning as pl
 import torch
 import torchvision
 import torchvision.transforms as transforms
-from torch.utils.data import DataLoader, random_split
+from torch.utils.data import DataLoader, Subset, random_split
 
 logger = logging.getLogger(__name__)
 
@@ -340,4 +339,155 @@ class MNISTDataModule(pl.LightningDataModule):
             "max_value": float(images.max()),
             "mean_value": float(images.mean()),
             "memory_usage_mb": images.numel() * images.element_size() / (1024 * 1024),
+        }
+
+
+class CIFAR100DataModule(pl.LightningDataModule):
+    """
+    Similar to mnist,
+    input shape 3x32x32 - ( 3 channels )
+    100 catogeries.
+    """
+
+    def __init__(
+        self,
+        # Basic - default parameters
+        data_dir: str = "./data",
+        batch_size: int = 128,
+        num_workers: int = 4,
+        pin_memory: bool = True,
+        persistent_workers: bool = True,
+        # Data splitting
+        val_split: float = 0.1,  # as percentage
+        # Random Seed
+        random_seed: int = 42,
+        **kwargs,
+    ) -> None:
+
+        super().__init__()
+        self.save_hyperparameters()
+
+        # Core parameters.
+        self.data_name: str = "CIFAR100"
+        self.data_dir: str = data_dir
+        self.batch_size: int = batch_size
+        self.num_workers: int = num_workers
+        self.pin_memory: bool = pin_memory
+        self.persistent_workers: bool = persistent_workers and (num_workers > 0)
+
+        self.random_state: int = random_seed
+
+        # Data parameters
+        self.val_split: float = val_split
+
+        # CIFAR100 constants
+        self.num_classes: int = 100
+        self.input_shape: Tuple[int, int, int] = (3, 32, 32)
+
+    def prepare_data(self) -> None:
+        """
+        Download the CIFAR100 data if not already present
+        """
+        logger.info("Downloading CIFAR100 dataset...")
+
+        torchvision.datasets.CIFAR100(root=self.data_dir, train=True, download=True)
+        torchvision.datasets.CIFAR100(root=self.data_dir, train=False, download=True)
+
+        logger.info(f"CIFAR100 dataset downloaded @ {self.data_dir}")
+
+    def setup(self, stage: Optional[str] = None) -> None:
+        """
+        Assign train/ val datasets for use in dataloaders.
+        """
+
+        transform = torchvision.transforms.ToTensor()
+
+        if stage == "fit" or stage is None:
+            full_train = torchvision.datasets.CIFAR100(
+                root=self.data_dir, train=True, transform=transform
+            )
+
+            # split into train and validation subsets
+            total_size: int = len(full_train)
+            val_size: int = int(self.val_split * total_size)
+            train_size: int = total_size - val_size
+
+            generator = torch.Generator().manual_seed(self.random_state)
+            train_indices, val_indices = random_split(
+                range(total_size), [train_size, val_size], generator=generator
+            )
+
+            # Create train and val datasets
+            self.train_dataset: Subset = torch.utils.data.Subset(
+                full_train, train_indices.indices
+            )
+
+            self.val_dataset: Subset = torch.utils.data.Subset(
+                full_train, val_indices.indices
+            )
+
+            logger.info(f"Train dataset: {len(self.train_dataset)} samples.")
+            logger.info(f"Val dataset: {len(self.val_dataset)}.")
+
+        if stage == "test" or stage is None:
+            self.test_dataset: torch.utils.data.Dataset = torchvision.datasets.CIFAR100(
+                root=self.data_dir, train=False, transform=transform
+            )
+            logger.info(f"Test dataset: {len(self.test_dataset)} samples.")
+
+    def train_dataloader(
+        self,
+    ) -> DataLoader:
+        """
+        create training dataloader
+        """
+        return DataLoader(
+            self.train_dataset,
+            batch_size=self.batch_size,
+            shuffle=True,
+            num_workers=self.num_workers,
+            pin_memory=self.pin_memory,
+            persistent_workers=self.persistent_workers,
+            drop_last=True,
+        )
+
+    def val_dataloader(
+        self,
+    ) -> DataLoader:
+        """
+        create val dataloader
+        """
+        return DataLoader(
+            self.val_dataset,
+            batch_size=self.batch_size,
+            shuffle=False,
+            num_workers=self.num_workers,
+            pin_memory=self.pin_memory,
+            persistent_workers=self.persistent_workers,
+        )
+
+    def test_dataloader(
+        self,
+    ) -> DataLoader:
+        """
+        create test dataloader
+        """
+        return DataLoader(
+            self.test_dataset,
+            batch_size=self.batch_size,
+            shuffle=False,
+            num_workers=self.num_workers,
+            pin_memory=self.pin_memory,
+            persistent_workers=self.persistent_workers,
+        )
+
+    def get_data_info(self) -> Dict[str, Any]:
+        """Return information about the dataset including dtype."""
+        return {
+            "num_classes": self.num_classes,
+            "input_shape": self.input_shape,
+            "train_size": len(self.train_dataset) if self.train_dataset else None,
+            "val_size": len(self.val_dataset) if self.val_dataset else None,
+            "test_size": len(self.test_dataset) if self.test_dataset else None,
+            "batch_size": self.batch_size,
         }

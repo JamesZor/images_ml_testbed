@@ -1,7 +1,17 @@
 # images_ml_testbed
+
 ## Simple models experiment 
 
-A simple CNN and MLR model 
+A simple CNN, MLR model and Deeper CNN.
+
+configs: 
+    - experiments: mnist_simple_models ,
+    - models : mnist_cnn, mnist_mlr, simple_cnn 
+    - data : mnist_float32 
+    - training: mnist_basic 
+
+
+    
 
 ### Simple CNN 
 
