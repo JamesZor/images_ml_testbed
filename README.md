@@ -91,9 +91,11 @@ python train.py experiments=mnist_simple_models model=mnist_mlr experiment.name=
 
 ### Deeper CNN 
 
-'''
+```bash
+# Run SimpleCNN model 
 python train.py experiments=mnist_simple_models model=cnn_simple experiment.name='test_cnn_model_v2' data.input_size=[1,1,28,28]
-'''
+```
+
 #### Model Architecture Summary
 
 | Metric | Value |
