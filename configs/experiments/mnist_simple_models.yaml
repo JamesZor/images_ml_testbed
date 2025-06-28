@@ -1,0 +1,23 @@
+# @pacakge _global 
+# configs/experiments/mnist_simple_models.yaml 
+
+defaults:
+  - override /model: mnist_cnn # or mnist_mlr
+
+
+# Override experiment metadata
+experiment:
+  name: "MNIST_Classification models"
+  tags: ['mnist', 'classification', 'simple models', 'pytorch']
+  notes: "MNIST classification using a simple CNN and MLR."
+
+# Override wandb project name if desired
+wandb:
+  project: "mnist_simple_models"
+  entity: "jameszoryk-me"
+  mode: "online"
+
+# output directories
+output_dir: "./experiments_mnist_simple_models/${now:%Y-%m-%d_%H-%M}"
+model_dir: "./models_mnist_v1"
+

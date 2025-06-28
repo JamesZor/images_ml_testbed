@@ -1,11 +1,12 @@
 # src/models/cnn.py (Enhanced for multiple dtypes)
 import logging
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Literal, Tuple
 
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from numpy import average
 from torch.types import Tensor
 from torchmetrics import Accuracy, F1Score
 
@@ -251,12 +252,13 @@ class MNIST_MLR(pl.LightningModule):
     Model for simple logistic Regression.
     """
 
-    def __init__(self,
-                 # training parameters
-                 learning_rate: float = 0.001,
-                 optimizer: str = "adam",
-                 weight_decay: float = 1e-4
-                 ):
+    def __init__(
+        self,
+        # training parameters
+        learning_rate: float = 0.001,
+        optimizer: str = "adam",
+        weight_decay: float = 1e-4,
+    ):
 
         super(MNIST_MLR, self).__init__()
         self.save_hyperparameters()
@@ -270,15 +272,14 @@ class MNIST_MLR(pl.LightningModule):
         self.acc = Accuracy(task="multiclass", num_classes=10)
         self.f1 = F1Score(task="multiclass", num_classes=10, average="macro")
 
-        self.linear = nn.Sequential(
-                nn.Flatten(),
-                nn.Linear(784, 10)
-                )
+        self.linear = nn.Sequential(nn.Flatten(), nn.Linear(784, 10))
 
     def forward(self, x):
         return self.linear(x)
 
-    def _compute_loss_and_metrics(self, batch: Tuple[Tensor, Tensor]) -> Tuple[Tensor, Tensor, Tensor]:
+    def _compute_loss_and_metrics(
+        self, batch: Tuple[Tensor, Tensor]
+    ) -> Tuple[Tensor, Tensor, Tensor]:
         x, y = batch
         logits = self(x)
         loss: Tensor = F.cross_entropy(logits, y)
@@ -287,11 +288,10 @@ class MNIST_MLR(pl.LightningModule):
 
         return loss, acc, f1
 
-    def _log_metircs(self, stage: str, loss: Tensor, acc: Tensor, f1: Tensor) -> None: 
+    def _log_metircs(self, stage: str, loss: Tensor, acc: Tensor, f1: Tensor) -> None:
         self.log(f"{stage}_loss", loss, prog_bar=True)
         self.log(f"{stage}_acc", acc, prog_bar=True)
         self.log(f"{stage}_f1", f1, prog_bar=True)
-
 
     def training_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
         loss, acc, f1 = self._compute_loss_and_metrics(batch)
@@ -310,15 +310,109 @@ class MNIST_MLR(pl.LightningModule):
 
     def configure_optimizers(self) -> torch.optim.Optimizer:
         optimizer = torch.optim.Adam(
-                self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay
-                )
+            self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay
+        )
         return optimizer
 
     def get_model_info(self) -> Dict[str, Any]:
-        """ Return model information."""
+        """Return model information."""
         return {
-                "model": "MLR",
-                "learning_rate": self.learning_rate,
-                "optimizer": self.optimizer,
-                "weight_decay": self.weight_decay
-                }
+            "model": "MLR",
+            "learning_rate": self.learning_rate,
+            "optimizer": self.optimizer,
+            "weight_decay": self.weight_decay,
+        }
+
+
+class MNIST_CNN(pl.LightningDataModule):
+    """
+    Model for a simple CNN based on the ISLP book, for the mnist data set.
+    """
+
+    def __init__(
+        self,
+        # Training parameters - to be set by hydra.
+        learning_rate: float = 0.001,
+        optimizer: str = "adam",
+        weight_decay: float = 1e-4,
+    ):
+
+        super(MNIST_CNN, self).__init__()
+        self.save_hyperparameters()
+
+        # store model's parameters into the class, to be used by the methods.
+        self.learning_rate: float = learning_rate
+        self.optimizer: str = optimizer
+        self.weight_decay: float = weight_decay
+
+        # metrics for training, validation and training.
+        self.acc = Accuracy(task="multiclass", num_classes=10)
+        self.f1 = F1Score(task="multiclass", num_classes=10, average="macro")
+
+        self.layer_1 = nn.Sequential(
+            nn.Flatten(), nn.Linear(28 * 28, 256), nn.ReLU(), nn.Dropout(0.4)
+        )
+        self.layer_2 = nn.Sequential(nn.Linear(256, 128), nn.ReLU(), nn.Dropout(0.4))
+        self._forward = nn.Sequential(self.layer_1, self.layer_2, nn.Linear(128, 10))
+
+    def forward(self, x: Tensor):
+        return self._forward(x)
+
+    def _compute_loss_and_metrics(
+        self, batch: Tuple[Tensor, Tensor]
+    ) -> Tuple[Tensor, Tensor, Tensor]:
+        """
+        Interal method to compute the metics for the training, validation, and test.
+        """
+        x, y = batch
+        logits: Tensor = self(x)
+        loss: Tensor = F.cross_entropy(logits, y)
+        acc: Tensor = self.acc(logits, y)
+        f1: Tensor = self.f1(logits, y)
+        return loss, acc, f1
+
+    def _log_metircs(
+        self,
+        stage: Literal["train", "val", "test"],
+        loss: Tensor,
+        acc: Tensor,
+        f1: Tensor,
+    ) -> None:
+        """
+        Interal method to log the results of the metrics
+        """
+        self.log(f"{stage}_loss", loss, prog_bar=True)
+        self.log(f"{stage}_acc", acc, prog_bar=False)
+        self.log(f"{stage}_f1", f1, prog_bar=False)
+
+    def training_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("train", loss, acc, f1)
+        return loss
+
+    def validation_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("val", loss, acc, f1)
+        return loss
+
+    def test_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("test", loss, acc, f1)
+        return loss
+
+    def configure_optimizers(self) -> torch.optim.Optimizer:
+        optimizer = torch.optim.Adam(
+            self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay
+        )
+        return optimizer
+
+    def get_model_info(self) -> Dict[str, Any]:
+        """
+        Return a dictionary regarding the model and parameters to be printed.
+        """
+        return {
+            "model": "Very Simple CNN",
+            "learning_rate": self.learning_rate,
+            "optimizer": self.optimizer,
+            "weight_decay": self.weight_decay,
+        }
