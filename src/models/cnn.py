@@ -56,7 +56,7 @@ class SimpleCNN(pl.LightningModule):
         )
 
         # Calculate flattened size
-        conv_output_size = 7 * 7 * conv_channels[-1]
+        conv_output_size = self._get_conv_output_size(input_channels)
 
         # Build classifier
         self.classifier = nn.Sequential(
@@ -89,6 +89,24 @@ class SimpleCNN(pl.LightningModule):
 
         logger.info(f"Created SimpleCNN with {self.count_parameters():,} parameters")
         logger.info(f"Model dtype: {self.model_dtype}")
+
+    def _get_conv_output_size(self, input_channels: int) -> int:
+        """Dynamically calculate the flattened conv output size"""
+        # Create a dummy input tensor matching MNIST dimensions
+        dummy_input = torch.zeros(1, input_channels, 28, 28)
+
+        # Pass through conv layers to get actual output shape
+        with torch.no_grad():
+            conv_output = self.conv_layers(dummy_input)
+
+        # Calculate flattened size
+        flattened_size = conv_output.view(1, -1).size(1)
+
+        # Debug logging
+        logger.info(f"Conv layers output shape: {conv_output.shape}")
+        logger.info(f"Calculated flattened size: {flattened_size}")
+
+        return flattened_size
 
     def _parse_dtype(self, dtype_str: str) -> torch.dtype:
         """Convert string dtype to torch.dtype."""

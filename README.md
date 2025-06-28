@@ -89,6 +89,54 @@ python train.py experiments=mnist_simple_models model=mnist_mlr experiment.name=
 
 ![MLR Prediction Visualization](https://github.com/JamesZor/images_ml_testbed/blob/main/results/mnist_mlr/2025-06-28_12-04/prediction_visualization.png)
 
+### Deeper CNN 
+
+'''
+python train.py experiments=mnist_simple_models model=cnn_simple experiment.name='test_cnn_model_v2' data.input_size=[1,1,28,28]
+'''
+#### Model Architecture Summary
+
+| Metric | Value |
+|--------|-------|
+| Total params | 421,642 |
+| Trainable params | 421,642 |
+| Non-trainable params | 0 |
+| Total mult-adds (MB) | 4.28 |
+| Input size (MB) | 0.00 |
+| Forward/backward pass size (MB) | 0.30 |
+| Params size (MB) | 1.69 |
+| Estimated Total Size (MB) | 1.99 |
+
+#### Layer Details
+
+| Layer (type:depth-idx) | Input Shape | Output Shape | Param # |
+|------------------------|-------------|--------------|---------|
+| SimpleCNN | [1, 1, 28, 28] | [1, 10] | -- |
+| ├─Sequential: 1-1 | [1, 1, 28, 28] | [1, 64, 7, 7] | -- |
+| │    └─Conv2d: 2-1 | [1, 1, 28, 28] | [1, 32, 28, 28] | 320 |
+| │    └─ReLU: 2-2 | [1, 32, 28, 28] | [1, 32, 28, 28] | -- |
+| │    └─MaxPool2d: 2-3 | [1, 32, 28, 28] | [1, 32, 14, 14] | -- |
+| │    └─Conv2d: 2-4 | [1, 32, 14, 14] | [1, 64, 14, 14] | 18,496 |
+| │    └─ReLU: 2-5 | [1, 64, 14, 14] | [1, 64, 14, 14] | -- |
+| │    └─MaxPool2d: 2-6 | [1, 64, 14, 14] | [1, 64, 7, 7] | -- |
+| ├─Sequential: 1-2 | [1, 64, 7, 7] | [1, 10] | -- |
+| │    └─Flatten: 2-7 | [1, 64, 7, 7] | [1, 3136] | -- |
+| │    └─Linear: 2-8 | [1, 3136] | [1, 128] | 401,536 |
+| │    └─ReLU: 2-9 | [1, 128] | [1, 128] | -- |
+| │    └─Dropout: 2-10 | [1, 128] | [1, 128] | -- |
+| │    └─Linear: 2-11 | [1, 128] | [1, 10] | 1,290 |
+
+#### Test Results
+
+| Test Metric | Value |
+|-------------|-------|
+| test_acc | 0.9915 |
+| test_f1 | 0.9913 |
+| test_loss | 0.0245 |
+
+
+
+
 ## Running MNIST Evaluation 
 
 ```bash 
