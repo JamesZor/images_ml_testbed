@@ -1,0 +1,9 @@
+# configs/data/cifar100.yaml
+_target_: src.data.dataloader.CIFAR100DataModule
+data_dir: "./data"
+batch_size: 128
+num_workers: 4 
+pin_memory: True 
+input_size: [128,3, 32, 32]
+val_split: 0.1
+random_state: 42
