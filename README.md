@@ -1,4 +1,16 @@
 # images_ml_testbed
+
+## Simple models experiment 
+
+A simple CNN and MLR model 
+
+
+
+
+
+
+
+
 # Data Type Performance Experiment
 
 A comprehensive analysis of different tensor data types (float32, float16, int8) and their impact on model accuracy, performance, and memory efficiency in machine learning workflows.
