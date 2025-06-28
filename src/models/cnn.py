@@ -324,7 +324,7 @@ class MNIST_MLR(pl.LightningModule):
         }
 
 
-class MNIST_CNN(pl.LightningDataModule):
+class MNIST_CNN(pl.LightningModule):
     """
     Model for a simple CNN based on the ISLP book, for the mnist data set.
     """

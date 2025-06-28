@@ -23,7 +23,7 @@ from torch.utils.data import DataLoader, Subset
 # Add src to path for imports
 sys.path.append("src")
 from src.data.dataloader import MNISTDataModule
-from src.models.cnn import MNIST_MLR, SimpleCNN
+from src.models.cnn import MNIST_CNN, MNIST_MLR, SimpleCNN
 
 # MNIST class names
 MNIST_CLASSES = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -35,6 +35,8 @@ def load_model_from_checkpoint(checkpoint_path: str, model_type: str):
 
     if model_type == "mnist_mlr":
         model = MNIST_MLR.load_from_checkpoint(checkpoint_path)
+    elif model_type == "mnist_cnn":
+        model = MNIST_CNN.load_from_checkpoint(checkpoint_path)
     elif model_type == "simple_cnn":
         model = SimpleCNN.load_from_checkpoint(checkpoint_path)
     else:
@@ -45,7 +47,7 @@ def load_model_from_checkpoint(checkpoint_path: str, model_type: str):
 
 
 def get_random_test_samples(
-    data_module: MNISTDataModule, num_samples: int = 9, seed: int = 42
+    data_module: MNISTDataModule, num_samples: int = 30, seed: int = 42
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     """Get random samples from test dataset."""
     # Set seed for reproducibility
@@ -94,8 +96,10 @@ def create_prediction_plot(
 ):
     """Create and save a 3x3 plot showing images with predictions."""
 
-    fig, axes = plt.subplots(5, 10, figsize=(12, 12))
-    fig.suptitle("Model Predictions on Test Data", fontsize=16, fontweight="bold")
+    fig, axes = plt.subplots(3, 10, figsize=(12, 12))
+    fig.suptitle("Model Predictions on Test Data", fontsize=14, fontweight="bold")
+    print(f"axes size:{len(axes.flatten())}")
+    print(f"img size:{len(images)}")
 
     for i, ax in enumerate(axes.flat):
         # Convert image to numpy and reshape for display
@@ -114,7 +118,7 @@ def create_prediction_plot(
 
         # Set title with prediction and true label
         title = f"Pred: {pred_label}\nTrue: {true_label}"
-        ax.set_title(title, fontsize=14, fontweight="bold", color=color)
+        ax.set_title(title, fontsize=11, fontweight="bold", color=color)
 
     plt.tight_layout()
 
@@ -169,13 +173,13 @@ def main():
         "--model_type",
         type=str,
         required=True,
-        choices=["mnist_mlr", "simple_cnn"],
+        choices=["mnist_mlr", "mnist_cnn", "simple_cnn"],
         help="Type of model to load",
     )
     parser.add_argument(
         "--num_samples",
         type=int,
-        default=9,
+        default=30,
         help="Number of samples to visualize (default: 9)",
     )
     parser.add_argument(
