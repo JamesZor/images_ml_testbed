@@ -142,11 +142,7 @@ python train.py experiments=mnist_simple_models model=cnn_simple experiment.name
 
 | Metric | SimpleCNN | CNN (FC Network) | MLR |
 |--------|-----------|------------------|-----|
-| Total params | 421,642 | 235,146 | 7,850 |
-| Trainable params | 421,642 | 235,146 | 7,850 |
-| Non-trainable params | 0 | 0 | 0 |
 | Total mult-adds (MB) | 4.28 | 0.24 | 0.01 |
-| Input size (MB) | 0.00 | 0.00 | 0.00 |
 | Forward/backward pass size (MB) | 0.30 | 0.00 | 0.00 |
 | Params size (MB) | 1.69 | 0.94 | 0.03 |
 | Estimated Total Size (MB) | 1.99 | 0.95 | 0.03 |
