@@ -1,91 +1,99 @@
 # images_ml_testbed
-
 ## Simple models experiment 
 
 A simple CNN and MLR model 
 
-### Simple cnn 
+### Simple CNN 
 
-'''bash
+```bash
 # run simple CNN model 
 python train.py experiments=mnist_simple_models experiment.name='test_simple_cnn'
-'''
+```
 
-===================================================================================================================
-Layer (type:depth-idx)                   Input Shape               Output Shape              Param #
-===================================================================================================================
-MNIST_CNN                                [1, 28, 28]               [1, 10]                   --
-├─Sequential: 1-1                        [1, 28, 28]               [1, 10]                   --
-│    └─Sequential: 2-1                   [1, 28, 28]               [1, 256]                  --
-│    │    └─Flatten: 3-1                 [1, 28, 28]               [1, 784]                  --
-│    │    └─Linear: 3-2                  [1, 784]                  [1, 256]                  200,960
-│    │    └─ReLU: 3-3                    [1, 256]                  [1, 256]                  --
-│    │    └─Dropout: 3-4                 [1, 256]                  [1, 256]                  --
-│    └─Sequential: 2-2                   [1, 256]                  [1, 128]                  --
-│    │    └─Linear: 3-5                  [1, 256]                  [1, 128]                  32,896
-│    │    └─ReLU: 3-6                    [1, 128]                  [1, 128]                  --
-│    │    └─Dropout: 3-7                 [1, 128]                  [1, 128]                  --
-│    └─Linear: 2-3                       [1, 128]                  [1, 10]                   1,290
-===================================================================================================================
-Total params: 235,146
-Trainable params: 235,146
-Non-trainable params: 0
-Total mult-adds (Units.MEGABYTES): 0.24
-===================================================================================================================
-Input size (MB): 0.00
-Forward/backward pass size (MB): 0.00
-Params size (MB): 0.94
-Estimated Total Size (MB): 0.95
-===================================================================================================================
+#### Model Architecture Summary
 
+| Metric | Value |
+|--------|-------|
+| Total params | 235,146 |
+| Trainable params | 235,146 |
+| Non-trainable params | 0 |
+| Total mult-adds (MB) | 0.24 |
+| Input size (MB) | 0.00 |
+| Forward/backward pass size (MB) | 0.00 |
+| Params size (MB) | 0.94 |
+| Estimated Total Size (MB) | 0.95 |
 
-       Test metric             DataLoader 0
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        test_acc             0.972100019454956
-         test_f1            0.9713416695594788
-        test_loss           0.09494025260210037
+#### Layer Details
 
-### MLR
+| Layer (type:depth-idx) | Input Shape | Output Shape | Param # |
+|------------------------|-------------|--------------|---------|
+| MNIST_CNN | [1, 28, 28] | [1, 10] | -- |
+| ├─Sequential: 1-1 | [1, 28, 28] | [1, 10] | -- |
+| │    └─Sequential: 2-1 | [1, 28, 28] | [1, 256] | -- |
+| │    │    └─Flatten: 3-1 | [1, 28, 28] | [1, 784] | -- |
+| │    │    └─Linear: 3-2 | [1, 784] | [1, 256] | 200,960 |
+| │    │    └─ReLU: 3-3 | [1, 256] | [1, 256] | -- |
+| │    │    └─Dropout: 3-4 | [1, 256] | [1, 256] | -- |
+| │    └─Sequential: 2-2 | [1, 256] | [1, 128] | -- |
+| │    │    └─Linear: 3-5 | [1, 256] | [1, 128] | 32,896 |
+| │    │    └─ReLU: 3-6 | [1, 128] | [1, 128] | -- |
+| │    │    └─Dropout: 3-7 | [1, 128] | [1, 128] | -- |
+| │    └─Linear: 2-3 | [1, 128] | [1, 10] | 1,290 |
 
-'''
+#### Test Results
+
+| Test Metric | Value |
+|-------------|-------|
+| test_acc | 0.9721 |
+| test_f1 | 0.9713 |
+| test_loss | 0.0949 |
+
+![CNN Prediction Visualization](https://github.com/JamesZor/images_ml_testbed/blob/main/results/mnist_cnn/2025-06-28_11-58/prediction_visualization.png)
+
+### MLR (Multi Logistic Regression)
+
+```bash
 # Run simple Multi Logistic regression 
 python train.py experiments=mnist_simple_models model=mnist_mlr experiment.name='test_mlr'
-'''
+```
 
-===================================================================================================================
-Layer (type:depth-idx)                   Input Shape               Output Shape              Param #
-===================================================================================================================
-MNIST_MLR                                [1, 28, 28]               [1, 10]                   --
-├─Sequential: 1-1                        [1, 28, 28]               [1, 10]                   --
-│    └─Flatten: 2-1                      [1, 28, 28]               [1, 784]                  --
-│    └─Linear: 2-2                       [1, 784]                  [1, 10]                   7,850
-===================================================================================================================
-Total params: 7,850
-Trainable params: 7,850
-Non-trainable params: 0
-Total mult-adds (Units.MEGABYTES): 0.01
-===================================================================================================================
-Input size (MB): 0.00
-Forward/backward pass size (MB): 0.00
-Params size (MB): 0.03
-Estimated Total Size (MB): 0.03
-===================================================================================================================
+#### Model Architecture Summary
 
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-       Test metric             DataLoader 0
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        test_acc            0.9207000136375427
-         test_f1            0.9178833961486816
-        test_loss           0.2789060175418854
-──────────────────────────────────────────────────────
+| Metric | Value |
+|--------|-------|
+| Total params | 7,850 |
+| Trainable params | 7,850 |
+| Non-trainable params | 0 |
+| Total mult-adds (MB) | 0.01 |
+| Input size (MB) | 0.00 |
+| Forward/backward pass size (MB) | 0.00 |
+| Params size (MB) | 0.03 |
+| Estimated Total Size (MB) | 0.03 |
 
+#### Layer Details
 
-# Running mnsit eval 
+| Layer (type:depth-idx) | Input Shape | Output Shape | Param # |
+|------------------------|-------------|--------------|---------|
+| MNIST_MLR | [1, 28, 28] | [1, 10] | -- |
+| ├─Sequential: 1-1 | [1, 28, 28] | [1, 10] | -- |
+| │    └─Flatten: 2-1 | [1, 28, 28] | [1, 784] | -- |
+| │    └─Linear: 2-2 | [1, 784] | [1, 10] | 7,850 |
 
-'''bash 
-python mnist_evalaute.py --experiment_path experiments_mlr/2025-06-27_17-33/ --model_type mnist_mlr --num_samples 30 --layout 3x10
-'''
+#### Test Results
 
+| Test Metric | Value |
+|-------------|-------|
+| test_acc | 0.9207 |
+| test_f1 | 0.9179 |
+| test_loss | 0.2789 |
+
+![MLR Prediction Visualization](https://github.com/JamesZor/images_ml_testbed/blob/main/results/mnist_mlr/2025-06-28_12-04/prediction_visualization.png)
+
+## Running MNIST Evaluation 
+
+```bash 
+python mnist_evaluate.py --experiment_path experiments_mlr/2025-06-27_17-33/ --model_type mnist_mlr --num_samples 30 --layout 3x10
+```
 
 
 # Data Type Performance Experiment
