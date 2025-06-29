@@ -23,7 +23,7 @@ from torch.utils.data import DataLoader, Subset
 # Add src to path for imports
 sys.path.append("src")
 from src.data.dataloader import CIFAR100DataModule
-from src.models.cnn import SimpleCNN
+from src.models.cnn import CIFARModel, SimpleCNN
 
 # CIFAR-100 class names (100 classes)
 CIFAR100_CLASSES = [
@@ -136,9 +136,11 @@ def load_model_from_checkpoint(checkpoint_path: str, model_type: str):
 
     if model_type == "simple_cnn":
         model = SimpleCNN.load_from_checkpoint(checkpoint_path)
+    elif model_type == "cifar100_cnn":
+        model = CIFARModel.load_from_checkpoint(checkpoint_path)
+
     else:
         raise ValueError(f"Unknown model type: {model_type}")
-
     model.eval()
     return model
 
@@ -283,7 +285,7 @@ def main():
         "--model_type",
         type=str,
         required=True,
-        choices=["simple_cnn"],
+        choices=["simple_cnn", "cifar100_cnn"],
         help="Type of model to load",
     )
     parser.add_argument(

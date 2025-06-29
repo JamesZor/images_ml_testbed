@@ -1,4 +1,4 @@
-# configs/model/mnist_cnn.yaml 
+# configs/model/cifar100_model.yaml 
 _target_: src.models.cnn.CIFARModel
 
 # Training parameters.

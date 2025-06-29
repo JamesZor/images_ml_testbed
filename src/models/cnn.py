@@ -476,7 +476,7 @@ class CIFARModel(pl.LightningModule):
         self.acc = Accuracy(task="multiclass", num_classes=100)
         self.f1 = F1Score(task="multiclass", num_classes=100, average="macro")
 
-        sizes = [(3, 32), (32, 64), (64, 126), (128, 256)]
+        sizes = [(3, 32), (32, 64), (64, 126), (126, 256)]
 
         self.conv = nn.Sequential(*[BuildingBlock(in_, out_) for in_, out_ in sizes])
 
