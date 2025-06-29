@@ -191,7 +191,7 @@ Running the simple_cnn model ( Deeper CNN) model on CIFAR-100 ( 100 classes), we
 | test_loss | 2.7993 |
 
 
-![SimpleCNN_cifar100](https://github.com/JamesZor/images_ml_testbed/blob/main/results/simple_cnn/2025-06-28_13-04/prediction_visualization.png)
+![SimpleCNN_cifar100](https://github.com/JamesZor/images_ml_testbed/blob/main/results/simple_cnn/2025-06-28_18-48/cifar100_prediction_visualization.png)
 
 
 # Data Type Performance Experiment
