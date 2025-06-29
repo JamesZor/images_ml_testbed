@@ -1,6 +1,6 @@
 # images_ml_testbed
 
-## Simple models experiment 
+## Simple models experiment
 
 A simple CNN, MLR model and Deeper CNN.
 
@@ -171,6 +171,27 @@ python train.py experiments=mnist_simple_models model=cnn_simple experiment.name
 ```bash 
 python mnist_evaluate.py --experiment_path experiments_mlr/2025-06-27_17-33/ --model_type mnist_mlr --num_samples 30 --layout 3x10
 ```
+
+
+## CIFAR - 100 
+
+
+
+Running the simple_cnn model ( Deeper CNN) model on CIFAR-100 ( 100 classes), we get the following results:
+
+```bash 
+ python train.py experiments=cifar100_test
+```
+
+
+| Test Metric | Value |
+|-------------|-------|
+| test_acc | 0.3126 |
+| test_f1 | 0.2314 |
+| test_loss | 2.7993 |
+
+
+![SimpleCNN_cifar100](https://github.com/JamesZor/images_ml_testbed/blob/main/results/simple_cnn/2025-06-28_13-04/prediction_visualization.png)
 
 
 # Data Type Performance Experiment
