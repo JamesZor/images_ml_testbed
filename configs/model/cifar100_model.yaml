@@ -1,0 +1,8 @@
+# configs/model/mnist_cnn.yaml 
+_target_: src.models.cnn.CIFARModel
+
+# Training parameters.
+learning_rate: 0.001
+optimizer: adam
+weight_decay: 1e-4
+

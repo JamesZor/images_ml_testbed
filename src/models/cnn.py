@@ -437,3 +437,111 @@ class MNIST_CNN(pl.LightningModule):
 
 
 # helper class
+class BuildingBlock(nn.Module):
+
+    def __init__(self, in_channels, out_channels):
+        super(BuildingBlock, self).__init__()
+        self.conv = nn.Conv2d(
+            in_channels=in_channels,
+            out_channels=out_channels,
+            kernel_size=(3, 3),
+            padding="same",
+        )
+        self.activation = nn.ReLU()
+        self.pool = nn.MaxPool2d(kernel_size=(2, 2))
+
+    def forward(self, x):
+        return self.pool(self.activation(self.conv(x)))
+
+
+class CIFARModel(pl.LightningModule):
+
+    def __init__(
+        self,
+        # Training parameters to be 5set by hydra.
+        learning_rate: float = 0.001,
+        optimizer: str = "adam",
+        weight_decay: float = 1e-4,
+    ):
+
+        super(CIFARModel, self).__init__()
+        self.save_hyperparameters()
+
+        # store model's parameters into the class, to be used by the methods.
+        self.learning_rate: float = learning_rate
+        self.optimizer: str = optimizer
+        self.weight_decay: float = weight_decay
+
+        # metrics for training, validation and training.
+        self.acc = Accuracy(task="multiclass", num_classes=100)
+        self.f1 = F1Score(task="multiclass", num_classes=100, average="macro")
+
+        sizes = [(3, 32), (32, 64), (64, 126), (128, 256)]
+
+        self.conv = nn.Sequential(*[BuildingBlock(in_, out_) for in_, out_ in sizes])
+
+        self.output = nn.Sequential(
+            nn.Dropout(0.5), nn.Linear(2 * 2 * 256, 512), nn.Linear(512, 100)
+        )
+
+    def forward(self, x):
+        return self.output(torch.flatten(self.conv(x), start_dim=1))
+
+    def _compute_loss_and_metrics(
+        self, batch: Tuple[Tensor, Tensor]
+    ) -> Tuple[Tensor, Tensor, Tensor]:
+        """
+        Interal method to compute the metics for the training, validation, and test.
+        """
+        x, y = batch
+        logits: Tensor = self(x)
+        loss: Tensor = F.cross_entropy(logits, y)
+        acc: Tensor = self.acc(logits, y)
+        f1: Tensor = self.f1(logits, y)
+        return loss, acc, f1
+
+    def _log_metircs(
+        self,
+        stage: Literal["train", "val", "test"],
+        loss: Tensor,
+        acc: Tensor,
+        f1: Tensor,
+    ) -> None:
+        """
+        Interal method to log the results of the metrics
+        """
+        self.log(f"{stage}_loss", loss, prog_bar=True)
+        self.log(f"{stage}_acc", acc, prog_bar=False)
+        self.log(f"{stage}_f1", f1, prog_bar=False)
+
+    def training_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("train", loss, acc, f1)
+        return loss
+
+    def validation_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("val", loss, acc, f1)
+        return loss
+
+    def test_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Tensor:
+        loss, acc, f1 = self._compute_loss_and_metrics(batch)
+        self._log_metircs("test", loss, acc, f1)
+        return loss
+
+    def configure_optimizers(self) -> torch.optim.Optimizer:
+        optimizer = torch.optim.Adam(
+            self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay
+        )
+        return optimizer
+
+    def get_model_info(self) -> Dict[str, Any]:
+        """
+        Return a dictionary regarding the model and parameters to be printed.
+        """
+        return {
+            "model": "CIFAR  CNN",
+            "learning_rate": self.learning_rate,
+            "optimizer": self.optimizer,
+            "weight_decay": self.weight_decay,
+        }
