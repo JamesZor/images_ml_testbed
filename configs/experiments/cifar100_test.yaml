@@ -1,25 +1,25 @@
 # @package _global_ 
-# configs/experiments/cifar100_test.yaml 
+# configs/experiments/eurosat_rgb.yaml 
 
 defaults:
-  - override /model: cnn_simple_cifar100
-  - override /data: cifar100 
-  - override /training: cifar100_basic 
+  - override /model: cifar100_model
+  - override /data: eurosatdata_basic # TODO
+  - override /training: eurosattrain_basic #TODO
 
 
 experiment:
-  name: "cifar100_Classification models"
-  tags: ['cifar100', 'classification', 'simple models', 'pytorch']
-  notes: "cifar100 classification using a simple CNN and MLR."
+  name: "eurosat_Classification models"
+  tags: ['eurosat', 'classification', 'simple models', 'pytorch']
+  notes: "eurosat classification using a simple CNN."
 
 # Override wandb project name if desired
 wandb:
-  project: "cifar100_test"
+  project: "eurosat_test"
   entity: "jameszoryk-me"
   mode: "online"
 
 # output directories
-output_dir: "./experiments_cifar100_test/${now:%Y-%m-%d_%H-%M}"
-model_dir: "./models_cifar100_test"
+output_dir: "./experiments_eurosat_test/${now:%Y-%m-%d_%H-%M}"
+model_dir: "./models_eurosat_test"
 
 
